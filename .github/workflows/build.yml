@@ -14,26 +14,29 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 3. Instalar motor Flutter oficial
+      - name: 3. Dependencias graficas de Ubuntu (El muro final)
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev mesa-utils
+
+      - name: 4. Instalar motor Flutter oficial
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      - name: 4. Firmar licencias de Android en el motor
+      - name: 5. Firmar licencias de Android
         run: yes | flutter doctor --android-licenses
 
-      - name: 5. Configurar Python
+      - name: 6. Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 6. Instalar Flet y librerias
+      - name: 7. Instalar Flet
         run: pip install flet requests
 
-      - name: 7. Compilar la APK
+      - name: 8. Compilar la APK
         run: flet build apk --yes
 
-      - name: 8. Guardar el instalador final
+      - name: 9. Guardar instalador final
         uses: actions/upload-artifact@v4
         with:
           name: app-apk
