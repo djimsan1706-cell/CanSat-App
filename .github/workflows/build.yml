@@ -31,7 +31,7 @@ jobs:
         run: pip install flet requests
 
       - name: 7. Compilar la APK
-        run: flet build apk
+        run: flet build apk --yes
 
       - name: 8. Guardar el instalador final
         uses: actions/upload-artifact@v4
