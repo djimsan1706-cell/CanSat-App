@@ -1,14 +1,26 @@
 name: Build APK
-on: push
+on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: flet-dev/build-flet-app-action@v1
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar entorno de Python
+        uses: actions/setup-python@v5
         with:
-          target: apk
-      - uses: actions/upload-artifact@v4
+          python-version: '3.12'
+
+      - name: Instalar Flet y librerías
+        run: pip install flet requests
+
+      - name: Compilar la APK Android
+        run: flet build apk
+
+      - name: Capturar y guardar el instalador final
+        uses: actions/upload-artifact@v4
         with:
           name: app-apk
-          path: output/apk/app-release.apk
+          path: build/apk/
