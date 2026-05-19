@@ -5,21 +5,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Descargar el código del repositorio
+      - name: 1. Descargar el código
         uses: actions/checkout@v4
 
-      - name: Instalar entorno de Python
+      - name: 2. Forzar Java 17 (La clave para Android)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 3. Instalar dependencias del servidor Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev mesa-utils
+
+      - name: 4. Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Instalar Flet y librerías
+      - name: 5. Instalar Flet y dependencias
         run: pip install flet requests
 
-      - name: Compilar la APK Android
+      - name: 6. Compilar la APK
         run: yes | flet build apk
 
-      - name: Capturar y guardar el instalador final
+      - name: 7. Guardar el instalador final
         uses: actions/upload-artifact@v4
         with:
           name: app-apk
