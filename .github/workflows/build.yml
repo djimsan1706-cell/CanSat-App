@@ -14,7 +14,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 3. Dependencias graficas de Ubuntu (El muro final)
+      - name: 3. Dependencias graficas de Ubuntu
         run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev mesa-utils
 
       - name: 4. Instalar motor Flutter oficial
@@ -34,7 +34,9 @@ jobs:
         run: pip install flet requests
 
       - name: 8. Compilar la APK
-        run: flet build apk --yes
+        env:
+          FLET_CLI_NO_RICH_OUTPUT: 1
+        run: flet build apk --verbose
 
       - name: 9. Guardar instalador final
         uses: actions/upload-artifact@v4
