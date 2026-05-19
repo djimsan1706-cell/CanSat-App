@@ -8,29 +8,30 @@ jobs:
       - name: 1. Descargar el código
         uses: actions/checkout@v4
 
-      - name: 2. Forzar Java 17 (La clave para Android)
+      - name: 2. Forzar Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 3. Instalar dependencias del servidor Linux
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev mesa-utils
+      - name: 3. Firmar licencias de Android (Bypass)
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
 
-      - name: 4. Configurar Python
+      - name: 4. Dependencias de sistema
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
+
+      - name: 5. Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 5. Instalar Flet y dependencias
+      - name: 6. Instalar Flet y librerias
         run: pip install flet requests
 
-      - name: 6. Compilar la APK
-        run: yes | flet build apk
+      - name: 7. Compilar la APK
+        run: flet build apk
 
-      - name: 7. Guardar el instalador final
+      - name: 8. Guardar el instalador final
         uses: actions/upload-artifact@v4
         with:
           name: app-apk
