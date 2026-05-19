@@ -34,9 +34,7 @@ jobs:
         run: pip install flet requests
 
       - name: 8. Compilar la APK
-        env:
-          FLET_CLI_NO_RICH_OUTPUT: 1
-        run: flet build apk --verbose
+        run: yes | flet build apk --verbose
 
       - name: 9. Guardar instalador final
         uses: actions/upload-artifact@v4
