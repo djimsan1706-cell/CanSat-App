@@ -33,8 +33,10 @@ jobs:
       - name: 7. Instalar Flet y librerias del servidor
         run: pip install flet requests
 
-      - name: 7.5. Inyectar dependencias a la fuerza (DevOps Bypass)
-        run: echo "requests" > requirements.txt
+      - name: 7.5. BLINDAJE TOTAL (Inyectar todas las dependencias)
+        run: |
+          echo "flet" > requirements.txt
+          echo "requests" >> requirements.txt
 
       - name: 8. Compilar la APK
         env:
