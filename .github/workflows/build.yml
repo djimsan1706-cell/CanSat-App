@@ -30,10 +30,15 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 7. Instalar Flet
+      - name: 7. Instalar Flet y librerias del servidor
         run: pip install flet requests
 
+      - name: 7.5. Inyectar dependencias a la fuerza (DevOps Bypass)
+        run: echo "requests" > requirements.txt
+
       - name: 8. Compilar la APK
+        env:
+          FLET_CLI_NO_RICH_OUTPUT: 1
         run: yes | flet build apk --verbose
 
       - name: 9. Guardar instalador final
